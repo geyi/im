@@ -1,0 +1,40 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/3.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/3.0.0 http://maven.apache.org/xsd/assembly-3.0.0.xsd">
+    <id>im-assembly</id>
+    <!-- 打包类型 -->
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <!-- 项目的根目录 -->
+            <directory>${project.basedir}/bin</directory>
+            <!-- 输出的目标文件夹 -->
+            <outputDirectory>bin</outputDirectory>
+            <!-- directory目录下的文件 -->
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <fileMode>0750</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory>config</outputDirectory>
+            <includes>
+                <include>*.yml</include>
+                <include>*.xml</include>
+                <include>*.properties</include>
+            </includes>
+            <fileMode>0640</fileMode>
+        </fileSet>
+    </fileSets>
+    <!-- 项目依赖 -->
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
+</assembly>

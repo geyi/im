@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" status="OFF">
+    <Properties>
+        <Property name="app_id">im</Property>
+        <Property name="log_path">logs</Property>
+        <Property name="pattern">${app_id}-%d{yyyy-MM-dd HH:mm:ss,SSS}[%X{traceId}]|%-5level|%t|%c{5.}.%M:%L|%replace{%msg}{'\s'}{' '}%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="${pattern}"/>-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS}[%X{traceId}]|${hostName}|%-5level{lowerCase=true}|%t|%c|%msg%n}"/>
+        </Console>
+
+        <RollingFile name="error_file" fileName="${log_path}/error_${app_id}.log"
+                     filePattern="${log_path}/${date:yyyy_MM_dd}/error_${app_id}_%d{yyyy_MM_dd_HH}_%i.log">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="2GB"/>
+            </Policies>
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="info_file" fileName="${log_path}/info_${app_id}.log"
+                     filePattern="${log_path}/${date:yyyy_MM_dd}/info_${app_id}_%d{yyyy_MM_dd_HH}_%i.log.gz">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="2GB"/>
+            </Policies>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="debug_file" fileName="${log_path}/debug_${app_id}.log"
+                     filePattern="${log_path}/${date:yyyy_MM_dd}/debug_${app_id}_%d{yyyy_MM_dd_HH}_%i.log.gz">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="2GB"/>
+            </Policies>
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+
+        <RollingFile name="warn_file" fileName="${log_path}/warn_${app_id}.log"
+                     filePattern="${log_path}/${date:yyyy_MM_dd}/warn_${app_id}_%d{yyyy_MM_dd_HH}_%i.log.gz">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="2GB"/>
+            </Policies>
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <logger name="com.airing" level="debug"/>
+        <logger name="org.springframework" level="info"/>
+        <logger name="org.mybatis" level="info"/>
+        <logger name="com.alibaba" level="warn"/>
+        <logger name="io.netty" level="warn"/>
+        <logger name="org.apache.shardingsphere" level="debug"/>
+        <Root level="info" includeLocation="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="info_file"/>
+            <AppenderRef ref="error_file"/>
+            <AppenderRef ref="warn_file"/>
+            <AppenderRef ref="debug_file"/>
+        </Root>
+    </Loggers>
+</Configuration>
