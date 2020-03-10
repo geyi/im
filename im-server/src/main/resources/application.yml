@@ -7,6 +7,8 @@ logging:
   config: classpath:log4j2.xml
 
 spring:
+  application:
+    name: im
   main:
     allow-bean-definition-overriding: true
 
@@ -30,3 +32,6 @@ mysql:
       timeBetweenEvictionRunsMillis: 6000
       minEvictableIdleTimeMillis: 30000
       filters: log4j,stat
+
+zookeeper:
+  url: 172.16.25.133:2181
