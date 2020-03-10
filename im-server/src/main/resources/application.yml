@@ -35,3 +35,4 @@ mysql:
 
 zookeeper:
   url: 172.16.25.133:2181
+  app-root: /im

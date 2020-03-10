@@ -35,6 +35,7 @@ public class ZKUtils {
             @Override
             public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
                 log.info("更新缓存parentPath={}，currentChilds={}", parentPath, currentChilds.toString());
+                ServerCacheUtils.updateCache(currentChilds);
             }
         });
     }

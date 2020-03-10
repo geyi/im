@@ -9,21 +9,19 @@ public class AppConfig {
     private String appName;
     @Value("${server.port}")
     private int port;
+    @Value("${zookeeper.app-root}")
+    private String zkAppRoot;
 
     public String getAppName() {
         return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
     }
 
     public int getPort() {
         return port;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public String getZkAppRoot() {
+        return zkAppRoot;
     }
 
     @Override
@@ -31,6 +29,7 @@ public class AppConfig {
         return "AppConfig{" +
                 "appName='" + appName + '\'' +
                 ", port=" + port +
+                ", zkAppRoot='" + zkAppRoot + '\'' +
                 '}';
     }
 }
