@@ -13,7 +13,7 @@ public class AppRegister implements Runnable {
     public AppRegister(String ip) {
         this.zkUtils = SpringBeanFactory.getBean(ZKUtils.class);
         this.appConfig = SpringBeanFactory.getBean(AppConfig.class);
-        this.appName = this.appConfig.getAppName();
+        this.appName = this.appConfig.getZkAppRoot();
         this.ip = ip;
         this.port = this.appConfig.getPort();
     }
@@ -21,7 +21,6 @@ public class AppRegister implements Runnable {
     @Override
     public void run() {
         StringBuilder path = new StringBuilder();
-        path.append("/");
         path.append(this.appName);
         String rootPath = path.toString();
         zkUtils.createAppNode(rootPath);
