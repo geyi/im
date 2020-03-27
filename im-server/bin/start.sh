@@ -8,6 +8,6 @@ BOOT_CLASS=com.airing.im.IMApplication
 
 echo $CLASS_PATH
 
-JAVA_OPTS="-Xms256M -Xmx256M -Dfile.encoding=UTF-8 -verbose:gc -XX:+PrintGCDetails -Xloggc:$PRG_HOME/logs/gc.log"
+JAVA_OPTS="-Xms256M -Xmx256M -Dfile.encoding=UTF-8 -verbose:gc -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCDetails -Xloggc:$PRG_HOME/logs/gc.log"
 
 java -cp $CLASS_PATH $JAVA_OPTS $BOOT_CLASS
