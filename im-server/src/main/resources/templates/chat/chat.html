@@ -1,0 +1,116 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/im/favicon.ico" type="image/x-icon">
+    <title>CS</title>
+    <style>
+        body,
+        html {
+            height: 95%;
+        }
+
+        #cs {
+            margin: 0 auto;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="cs">
+    <div class="wrapper">
+        <div class="container">
+            <div class="left">
+                <div class="top">
+                    <div style="width: 100%; height: 37px;">
+                        <span style="float: left; margin: 8px 8px 8px 15px;">Your status: <input type="checkbox" class="js-switch" /></span>
+                    </div>
+                    <input type="text" placeholder="Search" id="searchParam" />
+                    <span class="glyphicon glyphicon-search pointer" style="margin: 12px 0;"></span>
+                </div>
+                <ul class="people" id="friends">
+                </ul>
+            </div>
+            <div class="right">
+                <div class="top" id="top">
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <span>To: <span class="name" id="username"></span></span>
+                            <!--<span>ID: <span class="name" id="userAutoId"></span></span>-->
+                        </div>
+                        <!--<div class="col-sm-4">
+                            <span style="float: right;">Processed: <input type="checkbox" id="processed" /></span>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="chat-content" style="height: 400px;">
+                    <div id="chatDiv">
+                        <div class="chat active-chat" data-chat="person1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-right: 0px; margin-left: 0px; border-top: 1px solid #e6e6e6;">
+                    <div class="col-sm-4" style="margin-top:5px;">
+                            <span class="iconfont icon-xiaolian pointer" data-html="true" title="emoji"
+                                  data-container="body" data-toggle="popover" data-placement="top" data-content=''></span>
+                        <span class="fileupload-button pointer">
+                                <span class="glyphicon glyphicon-picture"></span>
+                                <input type="file" id="file">
+                            </span>
+                    </div>
+                    <div class="col-sm-8 text-right" style="margin-top:5px;">
+                        <span class="glyphicon glyphicon-time pointer"></span>
+                    </div>
+                </div>
+                <div class="row" style=" margin-top: 5px;">
+                    <div class="col-sm-10" style="padding-right: 0;">
+                        <div contenteditable="true" id="msg"></div>
+                    </div>
+                    <div class="col-sm-2 text-right"
+                         style="position: absolute; bottom: 0; right: -15px; padding-left: 0;">
+                        <div class="btn-group btn-group-justified" id="send">
+                            <a href="#" class="btn btn-success">Send</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="history" style="display: none">
+                <div class="chat-content history-content">
+                    <div id="historyDiv">
+                        <div class="chat" id="historyContent"></div>
+                    </div>
+                </div>
+                <div class="row history-date">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control layer-date" id="chatTime" readonly />
+                        <span class="glyphicon glyphicon-calendar pointer"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="account" th:attr="value=${account}" />
+<input type="hidden" id="httpUrl" th:attr="value=${httpServer}" />
+<input type="hidden" id="chatUrl" th:attr="value=${wsServer}" />
+<input type="hidden" id="friendListPage" value="0" />
+<input type="hidden" id="isEnd" value="false" />
+<link rel="stylesheet" href="chat/plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="chat/plugins/switchery/switchery.min.css">
+<link rel="stylesheet" href="chat/css/reset.min.css">
+<link rel="stylesheet" href="chat/css/iconfont.css?v=0.5">
+<link rel="stylesheet" href="chat/css/chat.css?v=0.5">
+<script src="chat/plugins/jquery/jquery.min.js"></script>
+<script src="chat/plugins/jquery/jquery-ui.min.js"></script>
+<script src="chat/plugins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+<script src="chat/plugins/ajax/ajax-object.js"></script>
+<script src="chat/plugins/laydate/laydate.js"></script>
+<script src="chat/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="chat/plugins/switchery/switchery.min.js"></script>
+<script src="chat/js/chat.js?v=0.60"></script>
+</body>
+
+</html>

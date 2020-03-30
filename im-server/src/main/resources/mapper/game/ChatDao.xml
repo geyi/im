@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airing.im.dao.game.ChatDao">
+
+    <select id="searchChatRef" resultType="Map" parameterType="Map">
+        select
+            a.USER_ID userId,
+            a.USER_NAME userName,
+            a.UNREAD unread,
+            a.UNREAD_COUNT unreadCount,
+            b.CHAT_CONTENT chatContent,
+            DATE_FORMAT(b.CRT_TIME, '%Y-%m-%e %H:%i:%s') chatDate,
+            c.ID userAutoId
+        from
+            fts_game.t_cs_chat_ref a
+        inner join fts_game.t_cs_chat_record b on
+            b.ID = a.CHAT_ID
+        inner join fts_auth.t_user_info c on
+            c.USER_ID = a.USER_ID
+        where
+            1 = 1
+            <if test='searchParam != null and searchParam != ""'>
+                and (a.USER_NAME like concat('%', #{searchParam}, '%') or c.ID = #{searchParam})
+            </if>
+        order by b.ID
+    </select>
+
+    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.Chat">
+        select
+            a.CHAT_CONTENT chatContent,
+            a.CRT_TIME chatTime,
+            a.SENDER_ID senderId,
+            a.SENDER_ID senderName
+        from
+            fts_game.t_chat_record a
+        where
+            a.USER_ID = #{userId}
+            <if test='createTimeStart != null and createTimeStart != ""'>
+                and a.CRT_TIME >= #{createTimeStart}
+            </if>
+            <if test='createTimeEnd != null and createTimeEnd != ""'>
+                and a.CRT_TIME <![CDATA[ <= ]]> #{createTimeEnd}
+            </if>
+        order by a.ID desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <update id="updateChatRef" parameterType="Map">
+        update
+            fts_game.t_cs_chat_ref
+        set
+            <if test="unread != null">
+                UNREAD = #{unread},
+            </if>
+            <if test="unreadCount != null">
+                UNREAD_COUNT = #{unreadCount},
+            </if>
+            UPDATE_TIME = now()
+        where
+            USER_ID = #{userId}
+    </update>
+
+    <select id="searchChatRefPage" resultType="Map" parameterType="Map">
+        select
+            a.FRIEND_ID userId,
+            a.FRIEND_ID userName,
+            a.UNREAD unread,
+            a.UNREAD_COUNT unreadCount,
+            b.CHAT_CONTENT chatContent,
+            DATE_FORMAT(b.CRT_TIME, '%Y-%m-%e %H:%i:%s') chatDate
+        from
+            fts_game.t_chat_ref a
+        inner join fts_game.t_chat_record b on
+            b.ID = a.CHAT_ID
+        where
+            a.USER_ID = #{account}
+        order by b.ID desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <resultMap id="recordMap" type="com.airing.im.bean.game.ChatRecordBean">
+        <result column="USER_ID" property="userId" />
+        <result column="SENDER_ID" property="senderId" />
+        <result column="RECEIVER_ID" property="receiverId" />
+        <result column="CHAT_CONTENT" property="chatContent" />
+        <result column="CHAT_TYPE" property="chatType" />
+        <result column="TIMESTAMP" property="timestamp" />
+    </resultMap>
+
+    <resultMap id="refMap" type="com.airing.im.bean.game.ChatRefBean">
+        <result column="CS_ID" property="csId" />
+        <result column="USER_ID" property="userId" />
+        <result column="CHAT_ID" property="chatId" />
+    </resultMap>
+
+    <insert id="insertChat" parameterType="com.airing.im.bean.game.ChatRecordBean"  useGeneratedKeys="true" keyProperty="id">
+        insert
+            into
+                t_chat_record (USER_ID,
+                SENDER_ID,
+                RECEIVER_ID,
+                CHAT_CONTENT)
+            values(#{userId},
+            #{senderId},
+            #{receiverId},
+            #{chatContent})
+    </insert>
+
+    <insert id="insertChatRef" parameterType="com.airing.im.bean.game.ChatRefBean">
+        insert
+            into
+                t_chat_ref (USER_ID,
+                FRIEND_ID,
+                CHAT_ID)
+            values(#{userId},
+            #{friendId},
+            #{chatId}) on
+            duplicate key update
+                CHAT_ID = values(CHAT_ID),
+                UNREAD = 1,
+                UNREAD_COUNT = UNREAD_COUNT + 1
+    </insert>
+</mapper>

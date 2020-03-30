@@ -11,6 +11,8 @@ public class AppConfig {
     private int port;
     @Value("${zookeeper.app-root}")
     private String zkAppRoot;
+    @Value("${ws.port}")
+    private int wsPort;
 
     public String getAppName() {
         return appName;
@@ -24,12 +26,17 @@ public class AppConfig {
         return zkAppRoot;
     }
 
+    public int getWsPort() {
+        return wsPort;
+    }
+
     @Override
     public String toString() {
         return "AppConfig{" +
                 "appName='" + appName + '\'' +
                 ", port=" + port +
                 ", zkAppRoot='" + zkAppRoot + '\'' +
+                ", wsPort='" + wsPort + '\'' +
                 '}';
     }
 }

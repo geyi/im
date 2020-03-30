@@ -1,0 +1,1 @@
+cat im.pid | xargs kill

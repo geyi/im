@@ -11,6 +11,13 @@ spring:
     name: im
   main:
     allow-bean-definition-overriding: true
+  mvc:
+    favicon:
+      enabled: false
+#  resources:
+#    static-locations: classpath:/static/
+#  mvc:
+#    static-path-pattern: /**
 
 mysql:
   datasource:
@@ -32,7 +39,42 @@ mysql:
       timeBetweenEvictionRunsMillis: 6000
       minEvictableIdleTimeMillis: 30000
       filters: log4j,stat
+    auth:
+      url: jdbc:mysql://172.16.25.133:3306/fts_auth?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+      username: fts_auth
+      password: fts_auth
+      initialSize: 10
+      maxActive: 20
+      minIdle: 10
+      maxWait: 5000
+      poolPreparedStatements: false
+      validationQuery: select 1
+      testOnBorrow: false
+      testOnReturn: false
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 6000
+      minEvictableIdleTimeMillis: 30000
+      filters: log4j,stat
+    game:
+      url: jdbc:mysql://172.16.25.133:3306/fts_game?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+      username: fts_game
+      password: fts_game
+      initialSize: 10
+      maxActive: 20
+      minIdle: 10
+      maxWait: 5000
+      poolPreparedStatements: false
+      validationQuery: select 1
+      testOnBorrow: false
+      testOnReturn: false
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 6000
+      minEvictableIdleTimeMillis: 30000
+      filters: log4j,stat
 
 zookeeper:
   url: 172.16.25.133:2181
   app-root: /im
+
+ws:
+  port: 9999
