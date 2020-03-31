@@ -1,13 +1,5 @@
 package com.airing.im.bean.game.chat;
 
-/**
- * @ClassName:      CSChatRecordBean
- * @Description:    聊天消息实体类
- * @Author:         GEYI
- * @CreateDate:     2019年07月04日 14:08
- * @Version:        1.0
- * @Copyright:      2019/7/4 yian Inc. All rights reserved.
- **/
 public class ChatRecordBean {
     /* 自增长id */
     private int id;
@@ -15,14 +7,10 @@ public class ChatRecordBean {
     private String userId;
     /* 消息发送者id */
     private String senderId;
-    /* 消息发送者昵称 */
-    private String senderName;
     /* 消息接收者id */
     private String receiverId;
     /* 聊天消息内容 */
     private String chatContent;
-    /* 聊天消息类型 */
-    private int chatType;
     /* 聊天消息时间戳 */
     private long timestamp;
 
@@ -50,14 +38,6 @@ public class ChatRecordBean {
         this.senderId = senderId;
     }
 
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
     public String getReceiverId() {
         return receiverId;
     }
@@ -72,14 +52,6 @@ public class ChatRecordBean {
 
     public void setChatContent(String chatContent) {
         this.chatContent = chatContent;
-    }
-
-    public int getChatType() {
-        return chatType;
-    }
-
-    public void setChatType(int chatType) {
-        this.chatType = chatType;
     }
 
     public long getTimestamp() {

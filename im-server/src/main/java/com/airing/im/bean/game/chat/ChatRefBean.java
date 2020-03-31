@@ -3,8 +3,6 @@ package com.airing.im.bean.game.chat;
 public class ChatRefBean {
     /* 自增长id */
     private int id;
-    /* 客服id */
-    private String csId;
     /* 用户id */
     private String userId;
     /* 好友id */
@@ -22,14 +20,6 @@ public class ChatRefBean {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCsId() {
-        return csId;
-    }
-
-    public void setCsId(String csId) {
-        this.csId = csId;
     }
 
     public String getUserId() {

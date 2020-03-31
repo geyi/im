@@ -4,30 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airing.im.dao.game.ChatDao">
 
-    <select id="searchChatRef" resultType="Map" parameterType="Map">
-        select
-            a.USER_ID userId,
-            a.USER_NAME userName,
-            a.UNREAD unread,
-            a.UNREAD_COUNT unreadCount,
-            b.CHAT_CONTENT chatContent,
-            DATE_FORMAT(b.CRT_TIME, '%Y-%m-%e %H:%i:%s') chatDate,
-            c.ID userAutoId
-        from
-            fts_game.t_cs_chat_ref a
-        inner join fts_game.t_cs_chat_record b on
-            b.ID = a.CHAT_ID
-        inner join fts_auth.t_user_info c on
-            c.USER_ID = a.USER_ID
-        where
-            1 = 1
-            <if test='searchParam != null and searchParam != ""'>
-                and (a.USER_NAME like concat('%', #{searchParam}, '%') or c.ID = #{searchParam})
-            </if>
-        order by b.ID
-    </select>
-
-    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.chat.Chat">
+    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.chat.ChatParamBean">
         select
             a.CHAT_CONTENT chatContent,
             a.CRT_TIME chatTime,
@@ -87,12 +64,10 @@
         <result column="SENDER_ID" property="senderId" />
         <result column="RECEIVER_ID" property="receiverId" />
         <result column="CHAT_CONTENT" property="chatContent" />
-        <result column="CHAT_TYPE" property="chatType" />
         <result column="TIMESTAMP" property="timestamp" />
     </resultMap>
 
     <resultMap id="refMap" type="com.airing.im.bean.game.chat.ChatRefBean">
-        <result column="CS_ID" property="csId" />
         <result column="USER_ID" property="userId" />
         <result column="CHAT_ID" property="chatId" />
     </resultMap>

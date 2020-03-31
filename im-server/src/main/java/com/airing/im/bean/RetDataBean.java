@@ -2,7 +2,7 @@ package com.airing.im.bean;
 
 import com.airing.im.enums.ResponseState;
 
-public class RetData<T> {
+public class RetDataBean<T> {
     private int code;
     private String msg;
     private T data;
@@ -31,15 +31,15 @@ public class RetData<T> {
         this.data = data;
     }
 
-    public RetData() {
+    public RetDataBean() {
     }
 
-    public RetData(ResponseState state) {
+    public RetDataBean(ResponseState state) {
         this.code = state.getCode();
         this.msg = state.getMsg();
     }
 
-    public RetData(ResponseState state, T data) {
+    public RetDataBean(ResponseState state, T data) {
         this.code = state.getCode();
         this.msg = state.getMsg();
         this.data = data;

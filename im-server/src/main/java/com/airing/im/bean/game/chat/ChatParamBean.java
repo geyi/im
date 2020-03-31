@@ -1,6 +1,6 @@
 package com.airing.im.bean.game.chat;
 
-public class Chat {
+public class ChatParamBean {
     private String userId;
     private String chatTime;
     private String createTimeStart;

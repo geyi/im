@@ -1,6 +1,6 @@
 package com.airing.im.controller;
 
-import com.airing.im.bean.RetData;
+import com.airing.im.bean.RetDataBean;
 import com.airing.im.config.app.AppConfig;
 import com.airing.im.enums.ResponseState;
 import com.airing.im.service.route.RouteExecutor;
@@ -64,7 +64,7 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/retData", method = RequestMethod.GET)
     @ResponseBody
-    public RetData retDataTest() {
+    public RetDataBean retDataTest() {
         try {
             System.out.println(1 / 0);
             Map<String, Object> ret = new HashMap<>();

@@ -1,6 +1,6 @@
 package com.airing.im.controller.chat;
 
-import com.airing.im.bean.game.chat.Chat;
+import com.airing.im.bean.game.chat.ChatParamBean;
 import com.airing.im.service.chat.ChatService;
 import com.airing.im.service.route.RouteExecutor;
 import com.airing.im.wrapper.ServerCacheWrapper;
@@ -42,32 +42,10 @@ public class ChatController {
     }
 
     @CrossOrigin
-    @RequestMapping("/ref")
-    @ResponseBody
-    public Object ref(Model model, String searchParam) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("searchParam", searchParam);
-        return this.chatService.searchChatRef(params);
-    }
-
-    @CrossOrigin
     @RequestMapping("/record")
     @ResponseBody
-    public Object record(Model model, Chat chat) {
+    public Object record(Model model, ChatParamBean chat) {
         return this.chatService.searchChatRecord(chat);
-    }
-
-    @CrossOrigin
-    @RequestMapping("/readEvent")
-    @ResponseBody
-    public Object readEvent(Model model, String userId) {
-        return this.chatService.updateReadStatus(userId);
-    }
-
-    @RequestMapping("/switchProcessed")
-    @ResponseBody
-    public Object switchProcessed(Model model, String userId, int unread) {
-        return this.chatService.switchProcessed(userId, unread);
     }
 
     @CrossOrigin
