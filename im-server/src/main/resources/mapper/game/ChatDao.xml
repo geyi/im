@@ -7,7 +7,7 @@
     <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.chat.ChatParamBean">
         select
             a.CHAT_CONTENT chatContent,
-            a.CRT_TIME chatTime,
+            date_format(a.CRT_TIME, '%Y-%m-%d %H:%i:%s') chatTime,
             a.SENDER_ID senderId,
             a.SENDER_ID senderName
         from

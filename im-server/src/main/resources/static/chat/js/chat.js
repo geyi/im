@@ -88,15 +88,12 @@ WS.COMMON = (function() {
         // 历史聊天内容
         hChatContent: function(isMe, chatType, content, chatTime, username) {
             content = content.replace(/"emoj\/emoj-/g, '"../static/modular/cs/im/emoj/emoj-');
-            var sender;
             var html = [];
             if (isMe) {
-                sender = 'Customer Service';
-                html.push('<span class="you-time">' + sender + ' ' + chatTime + '</span>');
+                html.push('<span class="you-time">' + username + ' ' + chatTime + '</span>');
                 html.push('<div class="bubble me">');
             } else {
-                sender = username;
-                html.push('<span class="you-time">' + sender + ' ' + chatTime + '</span>');
+                html.push('<span class="you-time">' + username + ' ' + chatTime + '</span>');
                 html.push('<div class="bubble you">');
             }
             html.push(content);
@@ -416,7 +413,7 @@ WS.COMMON = (function() {
 
                             console.log(data);
                             var records = data.data;
-                            var username = $('#username').text();
+                            var username;
                             for (var i = 0, len = records.length; i < len; i++) {
                                 var record = records[i];
                                 var chatContent = record.chatContent;
@@ -425,10 +422,12 @@ WS.COMMON = (function() {
 
                                 // 向窗口中添加聊天消息
                                 var isMe;
-                                if ('cs' == senderId) {
+                                if (WS.account == senderId) {
                                     isMe = true;
+                                    username = WS.account;
                                 } else {
                                     isMe = false;
+                                    username = $('#username').text();
                                 }
                                 var chatContent = WS.COMMON.hChatContent(isMe, 0, chatContent, chatTime, username);
                                 var chatWinEle = $('#historyContent');
@@ -481,7 +480,7 @@ WS.COMMON = (function() {
 
                         console.log(data);
                         var records = data.data;
-                        var username = $('#username').text();
+                        var username;
                         for (var i = 0, len = records.length; i < len; i++) {
                             var record = records[i];
                             var chatContent = record.chatContent;
@@ -490,10 +489,12 @@ WS.COMMON = (function() {
 
                             // 向窗口中添加聊天消息
                             var isMe;
-                            if ('cs' == senderId) {
+                            if (WS.account == senderId) {
                                 isMe = true;
+                                username = WS.account;
                             } else {
                                 isMe = false;
+                                username = $('#username').text();
                             }
                             var chatContent = WS.COMMON.hChatContent(isMe, 0, chatContent, chatTime, username);
                             var chatWinEle = $('#historyContent');
@@ -552,7 +553,7 @@ WS.COMMON = (function() {
 
                         console.log(data);
                         var records = data.data;
-                        var username = $('#username').text();
+                        var username;
                         for (var i = 0, len = records.length; i < len; i++) {
                             var record = records[i];
                             var chatContent = record.chatContent;
@@ -561,10 +562,12 @@ WS.COMMON = (function() {
 
                             // 向窗口中添加聊天消息
                             var isMe;
-                            if ('cs' == senderId) {
+                            if (WS.account == senderId) {
                                 isMe = true;
+                                username = WS.account;
                             } else {
                                 isMe = false;
+                                username = $('#username').text();
                             }
                             var chatContent = WS.COMMON.hChatContent(isMe, 0, chatContent, chatTime, username);
                             var chatWinEle = $('#historyContent');
