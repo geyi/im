@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airing.im.dao.auth.UserInfoDao">
-    <resultMap id="userMap" type="com.airing.im.bean.auth.UserInfoBean">
+    <resultMap id="userMap" type="com.airing.im.bean.auth.user.UserInfoBean">
         <result column="USER_ID" property="userId" />
         <result column="USER_NAME" property="userName" />
         <result column="USER_PIC" property="userPic" />

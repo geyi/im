@@ -1,7 +1,7 @@
 package com.airing.im.service.chat;
 
 import com.airing.im.bean.RetData;
-import com.airing.im.bean.game.Chat;
+import com.airing.im.bean.game.chat.Chat;
 import java.util.Map;
 
 public interface ChatService {

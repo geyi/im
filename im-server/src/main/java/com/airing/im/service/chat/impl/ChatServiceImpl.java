@@ -1,9 +1,9 @@
 package com.airing.im.service.chat.impl;
 
 import com.airing.im.bean.RetData;
-import com.airing.im.bean.game.Chat;
-import com.airing.im.bean.game.ChatRecordBean;
-import com.airing.im.bean.game.ChatRefBean;
+import com.airing.im.bean.game.chat.Chat;
+import com.airing.im.bean.game.chat.ChatRecordBean;
+import com.airing.im.bean.game.chat.ChatRefBean;
 import com.airing.im.dao.game.ChatDao;
 import com.airing.im.service.chat.ChatService;
 import java.io.UnsupportedEncodingException;
@@ -64,21 +64,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public RetData updateReadStatus(String userId) {
-        Map<String, Object> sqlParams = new HashMap<>();
-        sqlParams.put("userId", userId);
-        sqlParams.put("unread", 0);
-        sqlParams.put("unreadCount", 0);
-        this.chatDao.updateChatRef(sqlParams);
-        return RetData.successResult();
+        return null;
     }
 
     @Override
     public RetData switchProcessed(String userId, int unread) {
-        Map<String, Object> sqlParams = new HashMap<>();
-        sqlParams.put("userId", userId);
-        sqlParams.put("unread", unread);
-        this.chatDao.updateChatRef(sqlParams);
-        return RetData.successResult();
+        return null;
     }
 
     @Override

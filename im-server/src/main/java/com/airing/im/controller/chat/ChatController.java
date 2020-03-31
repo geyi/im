@@ -1,6 +1,6 @@
 package com.airing.im.controller.chat;
 
-import com.airing.im.bean.game.Chat;
+import com.airing.im.bean.game.chat.Chat;
 import com.airing.im.service.chat.ChatService;
 import com.airing.im.service.route.RouteExecutor;
 import com.airing.im.wrapper.ServerCacheWrapper;

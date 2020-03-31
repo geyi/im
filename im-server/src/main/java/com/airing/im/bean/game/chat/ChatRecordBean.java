@@ -1,4 +1,4 @@
-package com.airing.im.bean.game;
+package com.airing.im.bean.game.chat;
 
 /**
  * @ClassName:      CSChatRecordBean

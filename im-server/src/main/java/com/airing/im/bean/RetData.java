@@ -1,9 +1,8 @@
 package com.airing.im.bean;
 
-import com.airing.im.enums.ResultEnum;
+import com.airing.im.enums.ResponseState;
 
 public class RetData<T> {
-
     private int code;
     private String msg;
     private T data;
@@ -32,32 +31,17 @@ public class RetData<T> {
         this.data = data;
     }
 
-    public static RetData successResult(){
-        RetData retData = new RetData();
-        retData.setCode(ResultEnum.SUCCESS.getCode());
-        retData.setMsg(ResultEnum.SUCCESS.getMsg());
-        return retData;
+    public RetData() {
     }
 
-    public static RetData failResult(String msg){
-        RetData retData = new RetData();
-        retData.setCode(ResultEnum.FAIL.getCode());
-        retData.setMsg(msg);
-        return retData;
+    public RetData(ResponseState state) {
+        this.code = state.getCode();
+        this.msg = state.getMsg();
     }
 
-    public static RetData failResult(Integer code,String msg){
-        RetData retData = new RetData();
-        retData.setCode(code);
-        retData.setMsg(msg);
-        return retData;
-    }
-
-    public static RetData successResult(Object data) {
-        RetData retData = new RetData();
-        retData.setCode(ResultEnum.SUCCESS.getCode());
-        retData.setMsg(ResultEnum.SUCCESS.getMsg());
-        retData.setData(data);
-        return retData;
+    public RetData(ResponseState state, T data) {
+        this.code = state.getCode();
+        this.msg = state.getMsg();
+        this.data = data;
     }
 }

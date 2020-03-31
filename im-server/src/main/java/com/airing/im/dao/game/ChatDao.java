@@ -1,8 +1,8 @@
 package com.airing.im.dao.game;
 
-import com.airing.im.bean.game.Chat;
-import com.airing.im.bean.game.ChatRecordBean;
-import com.airing.im.bean.game.ChatRefBean;
+import com.airing.im.bean.game.chat.Chat;
+import com.airing.im.bean.game.chat.ChatRecordBean;
+import com.airing.im.bean.game.chat.ChatRefBean;
 import java.util.List;
 import java.util.Map;
 

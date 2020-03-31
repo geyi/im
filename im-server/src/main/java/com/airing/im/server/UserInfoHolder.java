@@ -1,6 +1,6 @@
 package com.airing.im.server;
 
-import com.airing.im.bean.auth.UserInfoBean;
+import com.airing.im.bean.auth.user.UserInfoBean;
 import com.airing.im.enums.Language;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,4 +1,4 @@
-package com.airing.im.bean.auth;
+package com.airing.im.bean.auth.user;
 
 public class UserInfoBean {
     private String userId;

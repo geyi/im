@@ -27,7 +27,7 @@
         order by b.ID
     </select>
 
-    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.Chat">
+    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.chat.Chat">
         select
             a.CHAT_CONTENT chatContent,
             a.CRT_TIME chatTime,
@@ -82,7 +82,7 @@
         limit #{offset}, #{limit}
     </select>
 
-    <resultMap id="recordMap" type="com.airing.im.bean.game.ChatRecordBean">
+    <resultMap id="recordMap" type="com.airing.im.bean.game.chat.ChatRecordBean">
         <result column="USER_ID" property="userId" />
         <result column="SENDER_ID" property="senderId" />
         <result column="RECEIVER_ID" property="receiverId" />
@@ -91,13 +91,13 @@
         <result column="TIMESTAMP" property="timestamp" />
     </resultMap>
 
-    <resultMap id="refMap" type="com.airing.im.bean.game.ChatRefBean">
+    <resultMap id="refMap" type="com.airing.im.bean.game.chat.ChatRefBean">
         <result column="CS_ID" property="csId" />
         <result column="USER_ID" property="userId" />
         <result column="CHAT_ID" property="chatId" />
     </resultMap>
 
-    <insert id="insertChat" parameterType="com.airing.im.bean.game.ChatRecordBean"  useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertChat" parameterType="com.airing.im.bean.game.chat.ChatRecordBean" useGeneratedKeys="true" keyProperty="id">
         insert
             into
                 t_chat_record (USER_ID,
@@ -110,7 +110,7 @@
             #{chatContent})
     </insert>
 
-    <insert id="insertChatRef" parameterType="com.airing.im.bean.game.ChatRefBean">
+    <insert id="insertChatRef" parameterType="com.airing.im.bean.game.chat.ChatRefBean">
         insert
             into
                 t_chat_ref (USER_ID,
