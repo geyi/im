@@ -1,6 +1,7 @@
 package com.airing.im.service.chat;
 
 import com.airing.im.bean.RetDataBean;
+import com.airing.im.bean.game.chat.ChatMsgBean;
 import com.airing.im.bean.game.chat.ChatParamBean;
 import java.util.Map;
 
@@ -28,4 +29,8 @@ public interface ChatService {
      * @return:        int
      **/
     int insertChatRef(String uid, String friendId, int chatId);
+
+    void sendMsg2Server(String server, Map<String, Object> data);
+
+    void sendMsg2User(ChatMsgBean msgBean);
 }

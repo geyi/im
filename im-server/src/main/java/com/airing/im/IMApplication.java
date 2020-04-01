@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 
 @SpringBootApplication
 public class IMApplication {
+    @Autowired
+    private AppConfig appConfig;
 
     public static void main(String[] args) {
         try {
@@ -32,10 +34,12 @@ public class IMApplication {
     }
 
     @Component
-    private static class Register implements CommandLineRunner {
+    private class Register implements CommandLineRunner {
         @Override
         public void run(String... args) throws Exception {
             String ip = InetAddress.getLocalHost().getHostAddress();
+//            String ip = "192.168.77.239";
+            appConfig.setIp(ip);
             ThreadPoolUtils.getSingle().execute(new AppRegister(ip));
         }
     }

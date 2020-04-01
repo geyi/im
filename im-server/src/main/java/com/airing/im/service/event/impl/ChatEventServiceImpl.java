@@ -1,9 +1,14 @@
 package com.airing.im.service.event.impl;
 
+import com.airing.im.config.app.AppConfig;
+import com.airing.im.constant.Common;
+import com.airing.im.server.NettySocketHolder;
 import com.airing.im.service.chat.ChatService;
 import com.airing.im.service.event.EventService;
 import com.airing.im.utils.RedissonUtils;
+import com.airing.im.wrapper.ServerCacheWrapper;
 import com.airing.utils.ThreadPoolUtils;
+import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +26,10 @@ public class ChatEventServiceImpl implements EventService {
     private RedissonUtils redissonUtils;
     @Autowired
     private ChatService chatService;
+    @Autowired
+    private AppConfig appConfig;
+    @Autowired
+    private ServerCacheWrapper serverCacheWrapper;
 
     @Override
     public Map<String, Object> eventHandler(Map<String, Object> data, ChannelHandlerContext ctx) {
@@ -30,7 +39,19 @@ public class ChatEventServiceImpl implements EventService {
         }
         // 保存消息到数据库
         ThreadPoolUtils.getSingle().execute(new SaveData(new HashMap<>(data), chatService));
-        return data;
+
+        String receiverId = (String) data.get("receiverId");
+        String key = String.format(Common.USER_SERVER, receiverId);
+        String server = redissonUtils.get(key);
+        String ip = this.serverCacheWrapper.serverIP(server);
+        if (appConfig.getIp().equals(ip)) {
+            return data;
+        } else {
+            this.chatService.sendMsg2Server(server, data);
+            String senderId = (String) data.get("senderId");
+            NettySocketHolder.sendMsg(senderId, JSONObject.toJSONString(data));
+            return null;
+        }
     }
 
     class SaveData implements Runnable {

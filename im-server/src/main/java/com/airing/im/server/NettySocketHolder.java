@@ -50,7 +50,6 @@ public class NettySocketHolder {
 			.filter(entry -> entry.getValue() == socketChannel)
 			.forEach((entry) -> {
 				MAP.remove(entry.getKey());
-				redissonUtils.sRem(Common.REDIS_KEY_CS_LIST, entry.getKey());
 				key[0] = entry.getKey();
 			});
 		return key[0];

@@ -27,4 +27,14 @@ public class ServerCacheWrapper {
         }
         return serverList;
     }
+
+    public String httpServer(String server) {
+        String[] info = server.split(":");
+        return "http://" + info[0] + ":" + info[1] + "/im";
+    }
+
+    public String serverIP(String server) {
+        String[] info = server.split(":");
+        return info[0];
+    }
 }

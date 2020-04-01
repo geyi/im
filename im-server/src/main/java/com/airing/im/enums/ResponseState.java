@@ -6,7 +6,10 @@ public enum ResponseState {
     /**失败标识 */
     FAIL(1,"失败"),
 
-    RESULT_SYS_ERR(-1, "系统服务异常，请稍后再试");
+    RESULT_SYS_ERR(-1, "系统服务异常，请稍后再试"),
+
+    PARAM_EXCPTION(100, "参数异常"),
+    SEND_MSG_EXCPTION(101, "请求发消息接口异常");
 
     private int code;
     private String msg;

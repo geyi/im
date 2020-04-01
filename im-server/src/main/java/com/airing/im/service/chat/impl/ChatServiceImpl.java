@@ -1,11 +1,18 @@
 package com.airing.im.service.chat.impl;
 
 import com.airing.im.bean.RetDataBean;
+import com.airing.im.bean.game.chat.ChatMsgBean;
 import com.airing.im.bean.game.chat.ChatParamBean;
 import com.airing.im.bean.game.chat.ChatRecordBean;
 import com.airing.im.bean.game.chat.ChatRefBean;
 import com.airing.im.dao.game.ChatDao;
+import com.airing.im.enums.ResponseState;
+import com.airing.im.server.NettySocketHolder;
 import com.airing.im.service.chat.ChatService;
+import com.airing.im.utils.RedissonUtils;
+import com.airing.im.utils.http.HttpRequestUtils;
+import com.airing.im.wrapper.ServerCacheWrapper;
+import com.alibaba.fastjson.JSONObject;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +27,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private ChatDao chatDao;
+    @Autowired
+    private RedissonUtils redissonUtils;
+    @Autowired
+    private ServerCacheWrapper serverCacheWrapper;
 
     @Override
     public RetDataBean searchChatRecord(ChatParamBean chat) {
@@ -62,5 +73,19 @@ public class ChatServiceImpl implements ChatService {
         chatRefBean.setFriendId(friendId);
         chatRefBean.setChatId(chatId);
         return this.chatDao.insertChatRef(chatRefBean);
+    }
+
+    @Override
+    public void sendMsg2Server(String server, Map<String, Object> data) {
+        String httpServer = this.serverCacheWrapper.httpServer(server);
+        String url = httpServer + "/chat/sendMsg";
+        String jsonParams = JSONObject.toJSONString(data);
+        String ret = HttpRequestUtils.post(url, jsonParams , ResponseState.SEND_MSG_EXCPTION);
+        log.info("{}消息发送结果{}", jsonParams, ret);
+    }
+
+    @Override
+    public void sendMsg2User(ChatMsgBean msgBean) {
+        NettySocketHolder.sendMsg(msgBean.getReceiverId(), JSONObject.toJSONString(msgBean));
     }
 }

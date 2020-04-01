@@ -224,7 +224,7 @@ WS.COMMON = (function() {
             var sTop = so.top;
             var sLeft = so.left;
 
-            var top = sTop - 244.5;
+            var top = sTop - 274.5;
             var left = sLeft - 126.5;
 
             $('.popover').css({
@@ -810,16 +810,12 @@ WS.CHAT = (function() {
                 $('#msg').html('');
                 var activeLi = $('#friends').find('li').filter(".active");
                 var msgObj = {
-                    account: WS.account,
                     senderId: WS.account,
-                    senderName: $('#account').val(),
                     userName: activeLi.find('.name').text(),
                     chatContent: msg,
-                    chatType: 1,
                     event: 3,
                     receiverId: activeLi.data('chat') + '',
-                    chatTime: new Date().getTime(),
-                    userAutoId: activeLi.data('autoid')
+                    chatTime: new Date().getTime()
                 };
                 ws.send(JSON.stringify(msgObj));
 

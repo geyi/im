@@ -13,6 +13,8 @@ public class AppConfig {
     private String zkAppRoot;
     @Value("${ws.port}")
     private int wsPort;
+    /** 服务器ip */
+    private String ip;
 
     public String getAppName() {
         return appName;
@@ -28,6 +30,14 @@ public class AppConfig {
 
     public int getWsPort() {
         return wsPort;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     @Override
