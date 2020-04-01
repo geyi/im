@@ -126,6 +126,7 @@ WS.COMMON = (function() {
 
                 var queryData = {};
                 queryData['userId'] = id;
+                queryData['account'] = WS.account;
                 queryData['offset'] = 0;
                 queryData['limit'] = 51;
 
@@ -405,6 +406,7 @@ WS.COMMON = (function() {
 
                     var queryData = {};
                     queryData['userId'] = $('.active-chat').data('chat');
+                    queryData['account'] = WS.account;
                     queryData['chatTime'] = value;
 
                     var ajax = new $ax(WS.record, function (data) {
@@ -473,6 +475,7 @@ WS.COMMON = (function() {
 
                 var queryData = {};
                 queryData['userId'] = id;
+                queryData['account'] = WS.account;
 
                 var ajax = new $ax(WS.record, function (data) {
                     if (data != null) {
@@ -546,6 +549,7 @@ WS.COMMON = (function() {
 
                 var queryData = {};
                 queryData['userId'] = id;
+                queryData['account'] = WS.account;
 
                 var ajax = new $ax(WS.record, function (data) {
                     if (data != null) {

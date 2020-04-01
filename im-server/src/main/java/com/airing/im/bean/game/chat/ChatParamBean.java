@@ -7,6 +7,7 @@ public class ChatParamBean {
     private String createTimeEnd;
     private Integer offset;
     private Integer limit;
+    private String account;
 
     public String getUserId() {
         return userId;
@@ -54,5 +55,13 @@ public class ChatParamBean {
 
     public void setLimit(Integer limit) {
         this.limit = limit;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 }

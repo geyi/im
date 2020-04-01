@@ -13,7 +13,8 @@
         from
             fts_game.t_chat_record a
         where
-            a.USER_ID = #{userId}
+            a.USER_ID = #{account}
+            and (SENDER_ID = #{userId} or RECEIVER_ID = #{userId})
             <if test='createTimeStart != null and createTimeStart != ""'>
                 and a.CRT_TIME >= #{createTimeStart}
             </if>
