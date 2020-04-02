@@ -745,7 +745,7 @@ WS.CHAT = (function() {
                         id = msg.senderId;
                         isMe = false;
                     }
-                    var name = msg.userName;
+                    var name = msg.receiverName;
                     var content = msg.chatContent;
                     var chatTime = new Date(msg.chatTime).Format("yyyy-MM-dd HH:mm:ss");
                     var userAutoId = msg.userAutoId;
@@ -815,10 +815,10 @@ WS.CHAT = (function() {
                 var activeLi = $('#friends').find('li').filter(".active");
                 var msgObj = {
                     senderId: WS.account,
-                    userName: activeLi.find('.name').text(),
+                    receiverId: activeLi.data('chat') + '',
+                    receiverName: activeLi.find('.name').text(),
                     chatContent: msg,
                     event: 3,
-                    receiverId: activeLi.data('chat') + '',
                     chatTime: new Date().getTime()
                 };
                 ws.send(JSON.stringify(msgObj));

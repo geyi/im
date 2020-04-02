@@ -4,7 +4,7 @@ public class ChatMsgBean {
     private String senderId;
     private String receiverId;
     /** 接收人的用户名 */
-    private String userName;
+    private String receiverName;
     private String chatContent;
     private int event;
     private long chatTime;
@@ -25,12 +25,12 @@ public class ChatMsgBean {
         this.receiverId = receiverId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public String getChatContent() {

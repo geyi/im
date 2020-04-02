@@ -44,7 +44,7 @@ public class ChatEventServiceImpl implements EventService {
         String key = String.format(Common.USER_SERVER, receiverId);
         String server = redissonUtils.get(key);
         String ip = this.serverCacheWrapper.serverIP(server);
-        if (appConfig.getIp().equals(ip)) {
+        if (StringUtils.isBlank(ip) || appConfig.getIp().equals(ip)) {
             return data;
         } else {
             this.chatService.sendMsg2Server(server, data);
