@@ -29,9 +29,7 @@ public class GameDataSourceConfig {
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/game/**/*.xml"));
-
         return bean.getObject();
     }
 

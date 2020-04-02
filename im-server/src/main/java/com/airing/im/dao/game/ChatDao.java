@@ -8,9 +8,9 @@ import java.util.Map;
 
 public interface ChatDao {
 
-    List<Map<String, Object>> searchChatRecord(ChatParamBean chat);
-
     List<Map<String, Object>> searchChatRefPage(Map<String, Object> params);
+
+    List<Map<String, Object>> searchChatRecord(ChatParamBean chat);
 
     int insertChat(ChatRecordBean csChatRecordBean);
 

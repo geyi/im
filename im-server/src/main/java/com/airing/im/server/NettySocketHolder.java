@@ -1,6 +1,5 @@
 package com.airing.im.server;
 
-import com.airing.im.constant.Common;
 import com.airing.im.utils.RedissonUtils;
 import com.airing.im.utils.SpringBeanFactory;
 import com.alibaba.fastjson.JSONObject;
@@ -53,15 +52,6 @@ public class NettySocketHolder {
 				key[0] = entry.getKey();
 			});
 		return key[0];
-
-		/*for (Map.Entry<String, Channel> es : MAP.entrySet()) {
-			String key = es.getKey();
-			Channel value = es.getValue();
-			if (value == socketChannel) {
-				MAP.remove(key);
-				redissonUtils.sRem(Common.REDIS_KEY_CS_LIST, key);
-			}
-		}*/
 	}
 
 	public static boolean containsKey(String id) {

@@ -33,9 +33,7 @@ public class AuthDataSourceConfig {
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/auth/**/*.xml"));
-
         return bean.getObject();
     }
 

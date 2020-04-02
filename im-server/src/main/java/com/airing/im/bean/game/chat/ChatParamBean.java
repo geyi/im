@@ -1,13 +1,21 @@
 package com.airing.im.bean.game.chat;
 
 public class ChatParamBean {
+    private String account;
     private String userId;
     private String chatTime;
     private String createTimeStart;
     private String createTimeEnd;
     private Integer offset;
     private Integer limit;
-    private String account;
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
 
     public String getUserId() {
         return userId;
@@ -55,13 +63,5 @@ public class ChatParamBean {
 
     public void setLimit(Integer limit) {
         this.limit = limit;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 }

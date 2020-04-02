@@ -13,7 +13,7 @@ public enum Event {
     /* 聊天 */
     CHAT("3", "chatEventServiceImpl", "聊天"),
     /* 客服已读 */
-//    READ("4", "readEventServiceImpl", "客服已读"),
+    READ("4", "readEventServiceImpl", "客服已读"),
     /* 匹配 */
     MATCH("5", "matchEventServiceImpl", "匹配"),
     /* 开始答题 */

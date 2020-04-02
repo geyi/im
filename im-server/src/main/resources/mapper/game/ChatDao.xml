@@ -4,44 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airing.im.dao.game.ChatDao">
 
-    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.chat.ChatParamBean">
-        select
-            a.CHAT_CONTENT chatContent,
-            date_format(a.CRT_TIME, '%Y-%m-%d %H:%i:%s') chatTime,
-            a.SENDER_ID senderId,
-            a.SENDER_ID senderName
-        from
-            fts_game.t_chat_record a
-        where
-            a.USER_ID = #{account}
-            and (SENDER_ID = #{userId} or RECEIVER_ID = #{userId})
-            <if test='createTimeStart != null and createTimeStart != ""'>
-                and a.CRT_TIME >= #{createTimeStart}
-            </if>
-            <if test='createTimeEnd != null and createTimeEnd != ""'>
-                and a.CRT_TIME <![CDATA[ <= ]]> #{createTimeEnd}
-            </if>
-        order by a.ID desc
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
-    </select>
-
-    <update id="updateChatRef" parameterType="Map">
-        update
-            fts_game.t_cs_chat_ref
-        set
-            <if test="unread != null">
-                UNREAD = #{unread},
-            </if>
-            <if test="unreadCount != null">
-                UNREAD_COUNT = #{unreadCount},
-            </if>
-            UPDATE_TIME = now()
-        where
-            USER_ID = #{userId}
-    </update>
-
     <select id="searchChatRefPage" resultType="Map" parameterType="Map">
         select
             a.FRIEND_ID userId,
@@ -58,6 +20,29 @@
             a.USER_ID = #{account}
         order by b.ID desc
         limit #{offset}, #{limit}
+    </select>
+
+    <select id="searchChatRecord" resultType="Map" parameterType="com.airing.im.bean.game.chat.ChatParamBean">
+        select
+        a.CHAT_CONTENT chatContent,
+        date_format(a.CRT_TIME, '%Y-%m-%d %H:%i:%s') chatTime,
+        a.SENDER_ID senderId,
+        a.SENDER_ID senderName
+        from
+        fts_game.t_chat_record a
+        where
+        a.USER_ID = #{account}
+        and (SENDER_ID = #{userId} or RECEIVER_ID = #{userId})
+        <if test='createTimeStart != null and createTimeStart != ""'>
+            and a.CRT_TIME >= #{createTimeStart}
+        </if>
+        <if test='createTimeEnd != null and createTimeEnd != ""'>
+            and a.CRT_TIME <![CDATA[ <= ]]> #{createTimeEnd}
+        </if>
+        order by a.ID desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
     </select>
 
     <resultMap id="recordMap" type="com.airing.im.bean.game.chat.ChatRecordBean">

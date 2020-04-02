@@ -33,6 +33,14 @@ public class ChatServiceImpl implements ChatService {
     private ServerCacheWrapper serverCacheWrapper;
 
     @Override
+    public RetDataBean searchChatRefPage(Map<String, Object> params) {
+        List<Map<String, Object>> refList = this.chatDao.searchChatRefPage(params);
+        RetDataBean result = new RetDataBean();
+        result.setData(refList);
+        return result;
+    }
+
+    @Override
     public RetDataBean searchChatRecord(ChatParamBean chat) {
         String chatTime = chat.getChatTime();
         if (StringUtils.isNotEmpty(chatTime)) {
@@ -43,14 +51,6 @@ public class ChatServiceImpl implements ChatService {
         RetDataBean result = new RetDataBean();
         result.setData(recordList);
 
-        return result;
-    }
-
-    @Override
-    public RetDataBean searchChatRefPage(Map<String, Object> params) {
-        List<Map<String, Object>> refList = this.chatDao.searchChatRefPage(params);
-        RetDataBean result = new RetDataBean();
-        result.setData(refList);
         return result;
     }
 

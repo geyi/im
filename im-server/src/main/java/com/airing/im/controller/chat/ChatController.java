@@ -48,13 +48,6 @@ public class ChatController extends BaseController {
     }
 
     @CrossOrigin
-    @RequestMapping("/record")
-    @ResponseBody
-    public Object record(Model model, ChatParamBean chat) {
-        return this.chatService.searchChatRecord(chat);
-    }
-
-    @CrossOrigin
     @RequestMapping("/refPage")
     @ResponseBody
     public Object refPage(Model model, String account, int offset, int limit) {
@@ -63,6 +56,13 @@ public class ChatController extends BaseController {
         params.put("offset", offset);
         params.put("limit", limit);
         return this.chatService.searchChatRefPage(params);
+    }
+
+    @CrossOrigin
+    @RequestMapping("/record")
+    @ResponseBody
+    public Object record(Model model, ChatParamBean chat) {
+        return this.chatService.searchChatRecord(chat);
     }
 
     @RequestMapping(value = "sendMsg", method = RequestMethod.POST)

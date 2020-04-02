@@ -6,9 +6,9 @@ import com.airing.im.bean.game.chat.ChatParamBean;
 import java.util.Map;
 
 public interface ChatService {
-    RetDataBean searchChatRecord(ChatParamBean chat);
-
     RetDataBean searchChatRefPage(Map<String, Object> params);
+
+    RetDataBean searchChatRecord(ChatParamBean chat);
 
     /**
      * @Title:         insertChat
