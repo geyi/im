@@ -6,7 +6,9 @@ import com.airing.im.enums.ResponseState;
 import com.airing.im.service.route.RouteExecutor;
 import com.airing.im.utils.RedissonUtils;
 import com.airing.im.utils.ZKUtils;
+import com.airing.im.wrapper.GameTestWrapper;
 import com.airing.im.wrapper.ServerCacheWrapper;
+import com.airing.im.wrapper.AuthTestWrapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,10 @@ public class IndexController extends BaseController {
     private ServerCacheWrapper serverCacheWrapper;
     @Autowired
     private RouteExecutor routeExecutor;
+    @Autowired
+    private AuthTestWrapper authTestWrapper;
+    @Autowired
+    private GameTestWrapper gameTestWrapper;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     @ResponseBody
@@ -73,5 +79,12 @@ public class IndexController extends BaseController {
         } catch (Exception e) {
             return super.errorResult(ResponseState.RESULT_SYS_ERR);
         }
+    }
+
+    @RequestMapping(value = "/transaction", method = RequestMethod.GET)
+    @ResponseBody
+    public Object transaction() {
+        this.authTestWrapper.authTest();
+        return "";
     }
 }
