@@ -169,4 +169,9 @@ public class RedissonUtils {
         rAtomicLong.expire(expireTime, timeUnit);
         return rAtomicLong.incrementAndGet();
     }
+
+    public long getIncrVal(String key) {
+        RAtomicLong rAtomicLong = redissonClient.getAtomicLong(key);
+        return rAtomicLong.get();
+    }
 }
