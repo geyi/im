@@ -8,8 +8,8 @@ public class AppRegister implements Runnable {
     private AppConfig appConfig;
     private String appName;
     private String ip;
-    private int port;
-    private int wsPort;
+    private Integer port;
+    private Integer wsPort;
 
     public AppRegister(String ip) {
         this.zkUtils = SpringBeanFactory.getBean(ZKUtils.class);
