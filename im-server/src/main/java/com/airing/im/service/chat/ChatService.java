@@ -1,14 +1,15 @@
 package com.airing.im.service.chat;
 
-import com.airing.im.bean.RetDataBean;
 import com.airing.im.bean.game.chat.ChatMsgBean;
 import com.airing.im.bean.game.chat.ChatParamBean;
+
+import java.util.List;
 import java.util.Map;
 
 public interface ChatService {
-    RetDataBean searchChatRefPage(Map<String, Object> params);
+    List<Map<String, Object>> searchChatRefPage(Map<String, Object> params);
 
-    RetDataBean searchChatRecord(ChatParamBean chat);
+    List<Map<String, Object>> searchChatRecord(ChatParamBean chat);
 
     /**
      * @Title:         insertChat
