@@ -14,34 +14,28 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeaderElementIterator;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.protocol.HttpContext;
 
 public class HttpClient {
 	private static final PoolingHttpClientConnectionManager CONN_MRG = new PoolingHttpClientConnectionManager();
-	private static final IdleConnectionMonitorThread IDLE_CONNECTION_MONITOR_THREAD = new IdleConnectionMonitorThread(
-			CONN_MRG);
-	private static final ConnectionKeepAliveStrategy KEEP_ALIVE_STRATEGY = new ConnectionKeepAliveStrategy() {
-		@Override
-		public long getKeepAliveDuration(org.apache.http.HttpResponse response,
-										 HttpContext context) {
-			HeaderElementIterator it = new BasicHeaderElementIterator(
-					response.headerIterator(HTTP.CONN_KEEP_ALIVE));
-			while (it.hasNext()) {
-				HeaderElement he = it.nextElement();
-				String param = he.getName();
-				String value = he.getValue();
-				if (value != null && "timeout".equalsIgnoreCase(param)) {
-					try {
-						return Long.parseLong(value) * 1000;
-					} catch (NumberFormatException ignore) {
-						throw ignore;
-					}
+	private static final ConnectionMonitorThread CONNECTION_MONITOR_THREAD = new ConnectionMonitorThread(CONN_MRG);
+	private static final ConnectionKeepAliveStrategy KEEP_ALIVE_STRATEGY = (response, context) -> {
+		HeaderElementIterator it = new BasicHeaderElementIterator(response.headerIterator(HTTP.CONN_KEEP_ALIVE));
+		while (it.hasNext()) {
+			HeaderElement he = it.nextElement();
+			String param = he.getName();
+			String value = he.getValue();
+			if (value != null && "timeout".equalsIgnoreCase(param)) {
+				try {
+					return Long.parseLong(value) * 1000;
+				} catch (NumberFormatException ignore) {
+					throw ignore;
 				}
 			}
-
-			return 30000;
 		}
+
+		return 30000;
 	};
+	private static final HttpClientBuilder builder = HttpClients.custom();
 
 	private int maxThreadSize = 0;
 	private int maxRouteSize = 0;
@@ -51,8 +45,8 @@ public class HttpClient {
 	private HttpRequestInterceptor requestInterceptor;
 
 	public HttpClient() {
-		this(Integer.getInteger("betbrain.httpclient.max.thread.size", 200),
-				Integer.getInteger("betbrain.httpclient.max.route.size", 200));
+		this(Integer.getInteger("httpclient.max.thread.size", 200)
+				, Integer.getInteger("httpclient.max.route.size", 200));
 	}
 
 	public HttpClient(int maxThreadSize, int maxRouteSize) {
@@ -64,27 +58,14 @@ public class HttpClient {
 	}
 
 	private void init() {
-		if (!IDLE_CONNECTION_MONITOR_THREAD.isAlive()) {
-			IDLE_CONNECTION_MONITOR_THREAD.start();
-		}
 		CONN_MRG.setMaxTotal(maxThreadSize);
 		CONN_MRG.setDefaultMaxPerRoute(maxRouteSize);
-	}
 
-	public CloseableHttpClient getHttpClient() {
-		return getHttpClient(defaultRequestTimeout, defaultSocketTimeout);
-	}
-	
-	public CloseableHttpClient getHttpClient(int requestTimeout, int socketTimeout) {
-		return getHttpClient(requestTimeout, socketTimeout, 5000);
-	}
-	
-	public CloseableHttpClient getHttpClient(int requestTimeout, int socketTimeout, int connectTimeout) {
-		HttpClientBuilder builder = HttpClients.custom();
+		if (!CONNECTION_MONITOR_THREAD.isAlive()) {
+			CONNECTION_MONITOR_THREAD.start();
+		}
+
 		builder.setConnectionManager(CONN_MRG);
-		builder.setDefaultRequestConfig(RequestConfig.custom()
-				.setConnectionRequestTimeout(requestTimeout).setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout)
-				.build());
 		builder.setKeepAliveStrategy(KEEP_ALIVE_STRATEGY);
 		if (requestInterceptor != null) {
 			builder.addInterceptorFirst(requestInterceptor);
@@ -92,14 +73,31 @@ public class HttpClient {
 		if (responseInterceptor != null) {
 			builder.addInterceptorLast(responseInterceptor);
 		}
+	}
+
+	public CloseableHttpClient getHttpClient() {
+		return getHttpClient(defaultRequestTimeout, defaultSocketTimeout);
+	}
+
+	public CloseableHttpClient getHttpClient(int requestTimeout, int socketTimeout) {
+		return getHttpClient(requestTimeout, socketTimeout, 5000);
+	}
+
+	public CloseableHttpClient getHttpClient(int requestTimeout, int socketTimeout, int connectTimeout) {
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setConnectionRequestTimeout(requestTimeout)
+				.setSocketTimeout(socketTimeout)
+				.setConnectTimeout(connectTimeout)
+				.build();
+		builder.setDefaultRequestConfig(requestConfig);
 		return builder.build();
 	}
 
-	static class IdleConnectionMonitorThread extends Thread {
+	static class ConnectionMonitorThread extends Thread {
 		private final HttpClientConnectionManager connMgr;
 		private volatile boolean shutdown;
 
-		public IdleConnectionMonitorThread(HttpClientConnectionManager connMgr) {
+		public ConnectionMonitorThread(HttpClientConnectionManager connMgr) {
 			super();
 			this.connMgr = connMgr;
 		}
@@ -110,10 +108,9 @@ public class HttpClient {
 				while (!shutdown) {
 					synchronized (this) {
 						wait(5000);
-						// 退出过期的连接数
+						// 关闭过期的连接数
 						connMgr.closeExpiredConnections();
-						// Optionally, close connections
-						// 闲置时间超过30秒
+						// 关闭闲置时间超过30秒连接
 						connMgr.closeIdleConnections(30, TimeUnit.SECONDS);
 					}
 				}

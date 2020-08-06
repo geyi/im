@@ -8,9 +8,12 @@ import com.airing.im.enums.ResponseState;
 import com.airing.im.service.chat.ChatService;
 import com.airing.im.service.route.RouteExecutor;
 import com.airing.im.wrapper.ServerCacheWrapper;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,7 @@ public class ChatController extends BaseController {
     public String index(Model model, String account) {
         List<String> serverList = this.serverCacheWrapper.getServerList();
         String server = this.routeExecutor.getServer(serverList, account);
-        String[] info = server.split(":");
+        String[] info = StringUtils.split(server, ':');
         String httpServer = "http://" + info[0] + ":" + info[1] + "/im";
         String wsServer = "ws://" + info[0] + ":" + info[2] + "/im";
         model.addAttribute("account", account);
@@ -50,19 +53,30 @@ public class ChatController extends BaseController {
     @CrossOrigin
     @RequestMapping("/refPage")
     @ResponseBody
-    public Object refPage(Model model, String account, int offset, int limit) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("account", account);
-        params.put("offset", offset);
-        params.put("limit", limit);
-        return this.chatService.searchChatRefPage(params);
+    public RetDataBean refPage(Model model, String account, int offset, int limit) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("account", account);
+            params.put("offset", offset);
+            params.put("limit", limit);
+            return super.successResult(this.chatService.searchChatRefPage(params));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return super.errorResult(ResponseState.RESULT_SYS_ERR);
+        }
+
     }
 
     @CrossOrigin
     @RequestMapping("/record")
     @ResponseBody
-    public Object record(Model model, ChatParamBean chat) {
-        return this.chatService.searchChatRecord(chat);
+    public RetDataBean record(Model model, ChatParamBean chat) {
+        try {
+            return super.successResult(this.chatService.searchChatRecord(chat));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return super.errorResult(ResponseState.RESULT_SYS_ERR);
+        }
     }
 
     @RequestMapping(value = "sendMsg", method = RequestMethod.POST)

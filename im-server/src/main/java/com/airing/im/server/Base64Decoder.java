@@ -15,6 +15,7 @@ public class Base64Decoder extends MessageToMessageDecoder<TextWebSocketFrame> {
         try {
             base64Byte = Base64Utils.decodeFromString(strMsg);
         } catch (Exception e) {
+            // 这里使用了异常控制业务逻辑，是一种不好的做法
             out.add(new TextWebSocketFrame(strMsg));
             return;
         }

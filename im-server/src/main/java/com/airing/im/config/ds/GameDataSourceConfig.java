@@ -1,7 +1,9 @@
 package com.airing.im.config.ds;
 
 import com.alibaba.druid.pool.DruidDataSource;
+
 import javax.sql.DataSource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,7 +17,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 @Configuration
-@MapperScan(basePackages = { "com.airing.im.dao.game" }, sqlSessionFactoryRef = "gameSqlSessionFactory")
+@MapperScan(basePackages = {"com.airing.im.dao.game"}, sqlSessionFactoryRef = "gameSqlSessionFactory")
 public class GameDataSourceConfig {
 
     @Bean(name = "gameDataSource")

@@ -1,6 +1,5 @@
 package com.airing.im.service.chat.impl;
 
-import com.airing.im.bean.RetDataBean;
 import com.airing.im.bean.game.chat.ChatMsgBean;
 import com.airing.im.bean.game.chat.ChatParamBean;
 import com.airing.im.bean.game.chat.ChatRecordBean;
@@ -13,13 +12,14 @@ import com.airing.im.utils.RedissonUtils;
 import com.airing.im.utils.http.HttpRequestUtils;
 import com.airing.im.wrapper.ServerCacheWrapper;
 import com.alibaba.fastjson.JSONObject;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -33,25 +33,20 @@ public class ChatServiceImpl implements ChatService {
     private ServerCacheWrapper serverCacheWrapper;
 
     @Override
-    public RetDataBean searchChatRefPage(Map<String, Object> params) {
+    public List<Map<String, Object>> searchChatRefPage(Map<String, Object> params) {
         List<Map<String, Object>> refList = this.chatDao.searchChatRefPage(params);
-        RetDataBean result = new RetDataBean();
-        result.setData(refList);
-        return result;
+        return refList;
     }
 
     @Override
-    public RetDataBean searchChatRecord(ChatParamBean chat) {
+    public List<Map<String, Object>> searchChatRecord(ChatParamBean chat) {
         String chatTime = chat.getChatTime();
         if (StringUtils.isNotEmpty(chatTime)) {
             chat.setCreateTimeStart(chatTime + " 00:00:00");
             chat.setCreateTimeEnd(chatTime + " 23:59:59");
         }
         List<Map<String, Object>> recordList = this.chatDao.searchChatRecord(chat);
-        RetDataBean result = new RetDataBean();
-        result.setData(recordList);
-
-        return result;
+        return recordList;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.airing.im.config.app;
 
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ToString
 public class AppConfig {
     @Value("${spring.application.name}")
     private String appName;
@@ -38,15 +40,5 @@ public class AppConfig {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    @Override
-    public String toString() {
-        return "AppConfig{" +
-                "appName='" + appName + '\'' +
-                ", port=" + port +
-                ", zkAppRoot='" + zkAppRoot + '\'' +
-                ", wsPort='" + wsPort + '\'' +
-                '}';
     }
 }
