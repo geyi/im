@@ -6,8 +6,8 @@ public class ChatMsgBean {
     /** 接收人的用户名 */
     private String receiverName;
     private String chatContent;
-    private int event;
-    private long chatTime;
+    private Integer event;
+    private Long chatTime;
 
     public String getSenderId() {
         return senderId;
@@ -41,19 +41,19 @@ public class ChatMsgBean {
         this.chatContent = chatContent;
     }
 
-    public int getEvent() {
+    public Integer getEvent() {
         return event;
     }
 
-    public void setEvent(int event) {
+    public void setEvent(Integer event) {
         this.event = event;
     }
 
-    public long getChatTime() {
+    public Long getChatTime() {
         return chatTime;
     }
 
-    public void setChatTime(long chatTime) {
+    public void setChatTime(Long chatTime) {
         this.chatTime = chatTime;
     }
 }

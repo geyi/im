@@ -14,33 +14,29 @@ import org.slf4j.LoggerFactory;
 public class ThreadPoolUtils {
     private static final Logger log = LoggerFactory.getLogger(ThreadPoolUtils.class);
     private static volatile ThreadPoolUtils ThreadPoolUtils = null;
-//    private final Object executorLock = new Object();
-    private static ThreadPoolExecutor executor = null;
+    private static ThreadPoolExecutor executor;
     private static final AtomicLongFieldUpdater<ThreadPoolUtils> WAITING_TIME_UPDATER =
             AtomicLongFieldUpdater.newUpdater(ThreadPoolUtils.class, "waitingTime");
     private volatile long waitingTime = 0;
     private static final AtomicLongFieldUpdater<ThreadPoolUtils> TOTAL_TIME_UPDATER =
             AtomicLongFieldUpdater.newUpdater(ThreadPoolUtils.class, "totalTime");
     private volatile long totalTime = 0;
+    private static final long KAT = 1000;
 
-    static {
+    private ThreadPoolUtils() {
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         int corePoolSize;
         int maxPoolSize;
         if (availableProcessors <= 2) {
-            corePoolSize = availableProcessors << 4;
-            maxPoolSize = availableProcessors << 5;
-        } else {
             corePoolSize = availableProcessors << 2;
             maxPoolSize = availableProcessors << 3;
+        } else {
+            corePoolSize = availableProcessors << 1;
+            maxPoolSize = availableProcessors << 2;
         }
-        executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize,
-                200, TimeUnit.MILLISECONDS,
+        executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize, KAT, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(2000),
                 new ThreadFactoryBuilder().setNameFormat("MY-THREAD-%d").build());
-    }
-
-    private ThreadPoolUtils() {
     }
 
     public static ThreadPoolUtils getSingle() {
@@ -54,59 +50,26 @@ public class ThreadPoolUtils {
         return ThreadPoolUtils;
     }
 
-    /*private void initParam() {
-        int availableProcessors = Runtime.getRuntime().availableProcessors();
-        int corePoolSize;
-        int maxPoolSize;
-        if (availableProcessors <= 2) {
-            corePoolSize = availableProcessors << 4;
-            maxPoolSize = availableProcessors << 5;
-        } else {
-            corePoolSize = availableProcessors << 2;
-            maxPoolSize = availableProcessors << 3;
-        }
-        initThreadPool(corePoolSize, maxPoolSize, 2000);
-    }*/
-
     public void execute(Runnable runnable) {
-        /*if (executor == null) {
-            initParam();
-        }*/
         executor.execute(runnable);
-        this.print();
+        this.printLog();
     }
 
     public <T> Future<T> execute(Runnable runnable, T result) {
-        /*if (executor == null) {
-            initParam();
-        }*/
         Future<T> future = executor.submit(runnable, result);
-        this.print();
+        this.printLog();
         return future;
     }
 
-    /*public void initThreadPool(int corePoolSize, int maxPoolSize, int queueSize) {
-        if (executor == null) {
-            synchronized (executorLock) {
-                if (executor == null) {
-                    log.info("corePoolSize: {}, maxPoolSize: {}, queueSize: {}", corePoolSize, maxPoolSize, queueSize);
-                    executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize,
-                            200, TimeUnit.MILLISECONDS,
-                            new ArrayBlockingQueue<>(queueSize),
-                            new ThreadFactoryBuilder().setNameFormat("MY-THREAD-%d").build());
-                }
-            }
-        }
-    }*/
-
-    public void print() {
-        log.info("activeCount: {}", executor.getActiveCount());
-        log.info("completedTaskCount: {}", executor.getCompletedTaskCount());
-        log.info("taskCount: {}", executor.getTaskCount());
-        log.info("queueSize: {}", executor.getQueue().size());
+    public void printLog() {
+        log.info("activeCount: {}, taskCount: {}, completedTaskCount: {}, queueSize: {}",
+                executor.getActiveCount(),
+                executor.getTaskCount(),
+                executor.getCompletedTaskCount(),
+                executor.getQueue().size());
         int queueSize = executor.getQueue().size();
         if (queueSize >= 10) {
-            log.error("queueSize: {}", queueSize);
+            log.warn("queueSize: {}", queueSize);
         }
     }
 
